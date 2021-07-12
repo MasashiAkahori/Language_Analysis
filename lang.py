@@ -1,10 +1,9 @@
-from pyknp import Juman, KNP
-import pyknp
+from pyknp import Jumanpp, KNP
 
 
 def morphological_Analysis(text):
     #構文解析
-    t = Juman()
+    t = Jumanpp()
     text = text
     print("入力文 {}".format(text))
     print("//////////////////////////")
@@ -50,6 +49,12 @@ def select_dependency_structure(line):
 
     return tuples
 
+def n_best(text):
+    b = Jumanpp(option= '-s 3')
+    mlist = b.analysis(text)
+    for mrph in mlist.mrph_list():
+        print(mrph.midasi)
+
 
 if __name__ == '__main__' :
     line = '今日の夜ご飯は、メロンパン100個です。'
@@ -58,7 +63,7 @@ if __name__ == '__main__' :
     # parsing(line)
     
     
-    print('/////////構文解析/////////////////')
+    print('/////////構文解析(係受け構造の抽出)/////////////////')
 
     tuples = select_dependency_structure(line)
     for t in tuples:
@@ -67,3 +72,5 @@ if __name__ == '__main__' :
 
     print('/////////文節分け/////////////////')
     phrase_Analysis(line)
+    print('////////////N-Bestを求める')
+    n_best(line)
